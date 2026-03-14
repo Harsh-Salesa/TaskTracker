@@ -12,11 +12,15 @@ public class User {
 
     private String username;
 
+    @Column(nullable = false)
+    private String role = "USER";
+
     @Column(unique = true)
     private String email;
 
     public Long getId() {
         return id;
+
     }
 
     public void setId(Long id) {
@@ -48,4 +52,12 @@ public class User {
     }
 
     private String password;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
