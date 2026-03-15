@@ -37,10 +37,12 @@ public class AuthViewController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String email,
+    public String registerUser(@RequestParam String username,
+                               @RequestParam String email,
                                @RequestParam String password){
 
         User user = new User();
+        user.setUsername(username);
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setRole("USER");
@@ -51,15 +53,21 @@ public class AuthViewController {
     }
 
     @PostMapping("/login-form")
-    public String login(@RequestParam String email,
+    public String login(@RequestParam String logininput,
                         @RequestParam String password,
                         HttpSession session,
                         HttpServletRequest request,
                         Model model){
-
-        User dbUser = userRepository
-                .findByEmail(email)
-                .orElse(null);
+        User dbUser;
+        if(logininput.contains("@")){
+            dbUser = userRepository
+                    .findByEmail(logininput)
+                    .orElse(null);
+        }
+        else {
+            dbUser=userRepository.findByUsername(logininput)
+                    .orElse(null);
+        }
 
         if(dbUser == null){
             model.addAttribute("error","User not found");
