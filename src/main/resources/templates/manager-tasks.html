@@ -1,0 +1,34 @@
+<table>
+
+    <tr>
+        <th>Task</th>
+        <th>Assign To</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="todo : ${todos}">
+
+        <td th:text="${todo.taskname}"></td>
+
+        <td>
+            <select name="userId">
+                <option th:each="u : ${users}"
+                        th:value="${u.id}"
+                        th:text="${u.username}">
+                </option>
+            </select>
+        </td>
+
+        <td>
+            <form th:action="@{/manager/assign}" method="post">
+
+                <input type="hidden" name="taskId" th:value="${todo.id}"/>
+
+                <button type="submit">Assign</button>
+
+            </form>
+        </td>
+
+    </tr>
+
+</table>

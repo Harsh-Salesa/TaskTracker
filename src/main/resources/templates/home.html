@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Todo List</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -8,7 +9,10 @@
 <body>
 
 <div class="container">
-
+    <a sec:authorize="hasRole('MANAGER')"
+       th:href="@{/manager/tasks}">
+        Manager Panel
+    </a>
     <!-- SEARCH -->
     <form th:action="@{/tasks/search}" method="get">
         <input type="text" name="keyword" placeholder="Search task">
@@ -32,6 +36,7 @@
             <th>Deadline</th>
             <th>Priority</th>
             <th>Actions</th>
+            <th>Created By</th>
             <th>Assinged To</th>
         </tr>
 
@@ -60,8 +65,8 @@
                     Delete
                 </a>
             </td>
-            <td th:text="${todo.user.username}"></td>
-
+            <td th:text="${todo.assignedTo != null ? todo.assignedTo.username : 'Not Assigned'}"></td>
+            <td th:text="${todo.createdBy != null ? todo.createdBy.username : 'Not Assigned'}"></td>
         </tr>
 
     </table>

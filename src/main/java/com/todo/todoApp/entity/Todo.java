@@ -1,5 +1,6 @@
 package com.todo.todoApp.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -29,8 +30,12 @@ public class Todo {
     private String priority;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @JoinColumn(name="created_by", nullable = false)
+    private User createdBy;
+
+    @ManyToOne
+    @JoinColumn(name="assigned_to")
+    private User assignedTo;
 
     public Todo() {}
 
@@ -90,12 +95,20 @@ public class Todo {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public User getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     }

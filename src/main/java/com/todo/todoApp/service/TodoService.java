@@ -30,4 +30,5 @@ public interface TodoService {
 
     Todo saveTodo(Todo todo, String email);
 
+    void assignTask(Long taskId, Long userId);
 }

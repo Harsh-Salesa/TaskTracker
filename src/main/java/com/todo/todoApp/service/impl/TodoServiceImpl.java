@@ -88,7 +88,7 @@ public class TodoServiceImpl implements TodoService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return todoRepository.findByUser(user);
+        return todoRepository.findByCreatedBy(user);
     }
 
     @Override
@@ -97,9 +97,19 @@ public class TodoServiceImpl implements TodoService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        todo.setUser(user);
+        todo.setCreatedBy(user);
 
         return todoRepository.save(todo);
     }
 
+    @Override
+    public void assignTask(Long taskId, Long userId){
+
+        Todo todo = todoRepository.findById(taskId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
+
+        todo.setAssignedTo(user);
+
+        todoRepository.save(todo);
+    }
 }
