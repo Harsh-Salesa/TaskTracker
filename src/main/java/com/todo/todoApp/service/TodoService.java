@@ -1,6 +1,7 @@
 package com.todo.todoApp.service;
 
 import com.todo.todoApp.entity.Todo;
+import com.todo.todoApp.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -31,4 +32,7 @@ public interface TodoService {
     Todo saveTodo(Todo todo, String email);
 
     void assignTask(Long taskId, Long userId);
+    // manager features
+
+    List<Todo> getTasksByManager(User manager);
 }

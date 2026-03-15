@@ -23,9 +23,7 @@ public class TodoServiceImpl implements TodoService {
         this.userRepository = userRepository;
     }
 
-    // ===============================
-    // EXISTING TODO FUNCTIONALITY
-    // ===============================
+    // ================= BASIC TODO =================
 
     @Override
     public Todo saveTask(Todo todo) {
@@ -78,9 +76,7 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.findAll(PageRequest.of(page, 5));
     }
 
-    // ===============================
-    // JWT USER BASED FUNCTIONALITY
-    // ===============================
+    // ================= USER TASKS =================
 
     @Override
     public List<Todo> getTasksByUser(String email) {
@@ -99,17 +95,32 @@ public class TodoServiceImpl implements TodoService {
 
         todo.setCreatedBy(user);
 
+        // team auto assign
+        todo.setTeam(user.getTeam());
+
         return todoRepository.save(todo);
     }
 
-    @Override
-    public void assignTask(Long taskId, Long userId){
+    // ================= MANAGER FEATURES =================
 
-        Todo todo = todoRepository.findById(taskId).orElseThrow();
-        User user = userRepository.findById(userId).orElseThrow();
+    @Override
+    public void assignTask(Long taskId, Long userId) {
+
+        Todo todo = todoRepository.findById(taskId)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         todo.setAssignedTo(user);
 
         todoRepository.save(todo);
     }
+
+    @Override
+    public List<Todo> getTasksByManager(User manager) {
+
+        return todoRepository.findByTeamManager(manager);
+    }
+
 }

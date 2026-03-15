@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-    <a sec:authorize="hasRole('MANAGER')"
+    <a th:if="${session.userRole == 'MANAGER'}"
        th:href="@{/manager/tasks}">
         Manager Panel
     </a>
@@ -65,8 +65,8 @@
                     Delete
                 </a>
             </td>
-            <td th:text="${todo.assignedTo != null ? todo.assignedTo.username : 'Not Assigned'}"></td>
             <td th:text="${todo.createdBy != null ? todo.createdBy.username : 'Not Assigned'}"></td>
+            <td th:text="${todo.assignedTo != null ? todo.assignedTo.username : 'Not Assigned'}"></td>
         </tr>
 
     </table>

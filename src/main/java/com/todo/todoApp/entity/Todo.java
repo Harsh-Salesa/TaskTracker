@@ -110,5 +110,15 @@ public class Todo {
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
     }
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
+    public Team getTeam() {
+        return team;
     }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+}
