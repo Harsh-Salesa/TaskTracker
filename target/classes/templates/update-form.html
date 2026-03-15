@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Task</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+<div class="logout-link" style="float:right; margin-bottom:10px;">
+    <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to logout?')">
+        Logout
+    </a>
+</div>
+<h2>Update Task</h2>
+
+<form th:action="@{/tasks/update/{id}(id=${todo.id})}" method="post" th:object="${todo}">
+
+    Task Name:
+    <input type="text" th:field="*{taskname}">
+    <br><br>
+
+    Description:
+    <input type="text" th:field="*{description}">
+    <br><br>
+
+    Status:
+    <select name="status" th:field="*{status}" required>
+
+    <option value="">All</option>
+    <option value="Pending">Pending</option>
+    <option value="In Progress">In Progress</option>
+    <option value="Completed">Completed</option>
+
+    </select>
+    <br><br>
+
+    Deadline:
+    <input type="datetime-local" th:field="*{deadline}" required>
+    <br><br>
+
+    Priority:
+    <select th:field="*{priority}">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+    </select>
+
+    <button type="submit">Update</button>
+
+</form>
+
+<br>
+
+<a href="/tasks">Back to Home</a>
+
+</body>
+</html>

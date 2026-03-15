@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Todo List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<!-- fragments/header.html -->
+<div th:fragment="header">
+    <div class="header">
+        <!-- Project Name -->
+        <a th:href="@{/}" class="logo">TodoApp</a>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a th:href="@{/tasks}">Tasks</a>
+
+            <!-- Logout button for authenticated users -->
+            <span sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+            </span>
+
+            <!-- Login link for non-authenticated users -->
+            <span sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">Login</a>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <a th:if="${session.userRole == 'MANAGER'}"
+       th:href="@{/manager/tasks}">
+        Manager Panel
+    </a>
+    <!-- SEARCH -->
+    <form th:action="@{/tasks/search}" method="get">
+        <input type="text" name="keyword" placeholder="Search task">
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Todo List</h2>
+
+    <a th:href="@{/tasks/insert}" class="btn-add">Add New Task</a>
+    <a th:href="@{/tasks/calendar}" class="btn" style="margin-left:10px;">View Calendar</a>
+
+    <br><br>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Task</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Deadline</th>
+            <th>Priority</th>
+            <th>Actions</th>
+            <th>Created By</th>
+            <th>Assinged To</th>
+        </tr>
+
+        <tr th:each="todo : ${todos}"
+            th:classappend="${todo.deadline != null and todo.deadline.isBefore(T(java.time.LocalDateTime).now()) ? 'overdue-row' : ''}">
+
+            <td th:text="${todo.id}"></td>
+            <td th:text="${todo.taskname}"></td>
+            <td th:text="${todo.description}"></td>
+            <td th:text="${todo.status}"></td>
+            <td th:text="${todo.deadline}"></td>
+
+            <td>
+                <span th:text="${todo.priority}"
+                      th:class="'priority-' + ${#strings.toLowerCase(todo.priority)}">
+                </span>
+            </td>
+
+            <td>
+                <!-- UPDATE -->
+                <a th:href="@{/tasks/update/{id}(id=${todo.id})}" class="btn-update">Update</a>
+
+                <!-- DELETE -->
+                <a th:href="@{/tasks/delete/{id}(id=${todo.id})}"
+                   onclick="return confirm('Are you sure you want to delete this task?')">
+                    Delete
+                </a>
+            </td>
+            <td th:text="${todo.createdBy != null ? todo.createdBy.username : 'Not Assigned'}"></td>
+            <td th:text="${todo.assignedTo != null ? todo.assignedTo.username : 'Not Assigned'}"></td>
+        </tr>
+
+    </table>
+
+    <!-- PAGINATION -->
+
+    <a th:if="${currentPage > 1}"
+       th:href="@{/tasks(page=${currentPage - 1})}">Previous</a>
+
+    <span th:text="${currentPage}"></span>
+
+    <a th:if="${currentPage < totalPages}"
+       th:href="@{/tasks(page=${currentPage + 1})}">Next</a>
+
+    <!-- FILTER -->
+
+    <form th:action="@{/tasks/filter}" method="get">
+
+        Filter by ID:
+        <select name="id">
+            <option value="">All</option>
+            <option th:each="todo : ${todos}"
+                    th:value="${todo.id}"
+                    th:text="${todo.id}">
+            </option>
+        </select>
+
+        Filter by Status:
+
+        <select name="status">
+            <option value="">All</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+
+        <button type="submit">Filter</button>
+
+    </form>
+
+    <br>
+
+    <a th:href="@{/tasks/today}" class="btn-add">Today's Tasks</a>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div class="dashboard">
+
+    <div class="card-box total">
+        <h3>Total Tasks</h3>
+        <p th:text="${totalTasks}"></p>
+    </div>
+
+    <div class="card-box completed">
+        <h3>Completed</h3>
+        <p th:text="${completedTasks}"></p>
+    </div>
+
+    <div class="card-box pending">
+        <h3>Pending</h3>
+        <p th:text="${pendingTasks}"></p>
+    </div>
+
+    <div class="card-box overdue">
+        <h3>Overdue</h3>
+        <p th:text="${overdueTasks}"></p>
+    </div>
+
+</div>
+
+</body>
+</html>

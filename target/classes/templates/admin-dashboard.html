@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+
+<div class="logout-link" style="float:right; margin-bottom:10px;">
+    <a th:href="@{/logout}"
+       onclick="return confirm('Are you sure you want to logout?')">
+        Logout
+    </a>
+</div>
+
+<h2>Admin Dashboard</h2>
+
+<p>Total Users: <span th:text="${totalUsers}"></span></p>
+
+<br>
+
+<h3>Admin Controls</h3>
+
+<ul>
+
+    <li>
+        <a th:href="@{/admin/create-user}">
+            Create User
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/admin/users}">
+            Manage Users
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/admin/teams}">
+            Create Team
+        </a>
+    </li>
+
+    <li>
+        <a th:href="@{/admin/teams}">
+            Manage Teams
+        </a>
+    </li>
+
+</ul>
+
+</body>
+</html>

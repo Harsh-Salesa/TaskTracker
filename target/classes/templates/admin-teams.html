@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Teams</title>
+</head>
+
+<body>
+
+<h2>Create Team</h2>
+
+<form th:action="@{/admin/teams/create}" method="post">
+
+    Team Name:
+    <input type="text" name="name" required>
+
+    Manager:
+
+    <select name="managerId">
+
+        <option th:each="m : ${managers}"
+                th:value="${m.id}"
+                th:text="${m.username}">
+        </option>
+
+    </select>
+
+    <button type="submit">Create Team</button>
+
+</form>
+
+<br><br>
+
+<h2>Teams</h2>
+
+<table border="1">
+
+    <tr>
+        <th>ID</th>
+        <th>Team Name</th>
+        <th>Manager</th>
+    </tr>
+
+    <tr th:each="team : ${teams}">
+
+        <td th:text="${team.id}"></td>
+
+        <td th:text="${team.name}"></td>
+
+        <td th:text="${team.manager.username}"></td>
+
+    </tr>
+
+</table>
+
+</body>
+</html>
