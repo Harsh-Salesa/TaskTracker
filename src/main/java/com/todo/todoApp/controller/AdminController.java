@@ -51,6 +51,17 @@ public class AdminController {
 
         return "redirect:/admin/users";
     }
+    @GetMapping("/demote/{id}")
+    public String demote(@PathVariable Long id){
+
+        User user = userRepository.findById(id).orElseThrow();
+
+        user.setRole("USER");
+
+        userRepository.save(user);
+
+        return "redirect:/admin/users";
+    }
     @GetMapping("/deactivate/{id}")
     public String deactivateUser(@PathVariable Long id){
 
