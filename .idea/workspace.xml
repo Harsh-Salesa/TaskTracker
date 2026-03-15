@@ -7,7 +7,15 @@
     <list default="true" id="7dd605dc-3c13-4051-83ec-0a43fe008902" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AuthViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AuthViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/entity/Todo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/entity/Todo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin-users.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-users.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AuthViewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AuthViewController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/service/AuthService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

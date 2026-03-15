@@ -4,6 +4,7 @@ import com.todo.todoApp.entity.User;
 import com.todo.todoApp.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class AuthService {
@@ -35,6 +36,9 @@ public class AuthService {
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
+        }
+        if(!user.isActive()){
+                throw new RuntimeException("Account is deactivated");
         }
 
         return jwtService.generateToken(user);

@@ -1,28 +1,41 @@
-<h2>User Management</h2>
 
-<table>
+    <h2 xmlns:th="http://www.w3.org/1999/xhtml">User Management</h2>
+
+    <table xmlns:th="http://www.w3.org/1999/xhtml">
 
 <tr>
 <th>ID</th>
 <th>Email</th>
 <th>Role</th>
+ <th>Status</th>
 <th>Actions</th>
 </tr>
 
-<tr th:each="user : ${users}">
+    <tr th:each="user : ${users}">
 
-<td th:text="${user.id}"></td>
-<td th:text="${user.email}"></td>
-<td th:text="${user.role}"></td>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.role}"></td>
 
-<td>
+        <td th:text="${user.active ? 'Active' : 'Inactive'}"></td>
 
-<a th:href="@{/admin/promote/{id}(id=${user.id})}">
-Make Manager
-</a>
+        <td>
+            <a th:href="@{/admin/promote/{id}(id=${user.id})}">
+                Make Manager
+            </a>
 
-</td>
+            <a th:if="${user.active}"
+               th:href="@{/admin/deactivate/{id}(id=${user.id})}">
+                Deactivate
+            </a>
 
-</tr>
+            <a th:if="${!user.active}"
+               th:href="@{/admin/activate/{id}(id=${user.id})}">
+                Activate
+            </a>
+
+        </td>
+
+    </tr>
 
 </table>
