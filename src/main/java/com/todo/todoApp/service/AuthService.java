@@ -16,10 +16,16 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public String login(String email, String password) {
+    public String login(String loginInput, String password) {
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow();
+        User user;
+        if (loginInput.contains("@")) {
+            user = userRepository.findByEmail(loginInput)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+        } else {
+            user = userRepository.findByUsername(loginInput)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+        }
 
         return jwtService.generateToken(user.getEmail());
     }
