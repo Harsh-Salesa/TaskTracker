@@ -1,5 +1,6 @@
 package com.todo.todoApp.controller;
 
+import com.todo.todoApp.entity.User;
 import com.todo.todoApp.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -38,5 +39,16 @@ public class AdminController {
         model.addAttribute("users", userRepository.findAll());
 
         return "admin-users.html";
+    }
+    @GetMapping("/promote/{id}")
+    public String promote(@PathVariable Long id){
+
+        User user = userRepository.findById(id).orElseThrow();
+
+        user.setRole("MANAGER");
+
+        userRepository.save(user);
+
+        return "redirect:/admin/users";
     }
 }

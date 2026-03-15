@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dd605dc-3c13-4051-83ec-0a43fe008902" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-users.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" afterDir="false" />
