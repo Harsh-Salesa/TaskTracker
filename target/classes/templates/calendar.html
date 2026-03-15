@@ -21,7 +21,11 @@
     </style>
 </head>
 <body>
-
+<div class="logout-link" style="float:right; margin-bottom:10px;">
+    <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to logout?')">
+        Logout
+    </a>
+</div>
 <h1 style="text-align:center">Task Calendar</h1>
 
 <div id="calendar"></div>

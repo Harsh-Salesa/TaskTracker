@@ -103,4 +103,19 @@ public class AuthViewController {
 
         return "redirect:/tasks";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // Session ko invalidate kar do
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // Spring Security context clear kar do
+        SecurityContextHolder.clearContext();
+
+        // User ko login page par redirect
+        return "redirect:/login";
+    }
 }

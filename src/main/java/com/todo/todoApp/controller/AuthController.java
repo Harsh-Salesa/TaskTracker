@@ -44,4 +44,16 @@ public class AuthController {
         response.addCookie(cookie);
         return "redirect:/tasks";
     }
+    @PostMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        // JWT cookie ko clear karna
+        Cookie cookie = new Cookie("jwt", "");
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // cookie ko turant expire kar do
+        response.addCookie(cookie);
+
+        // user ko login page ya home page par redirect karna
+        return "redirect:/login";
+    }
 }
