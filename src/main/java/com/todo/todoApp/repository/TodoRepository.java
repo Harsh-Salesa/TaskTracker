@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
     List<Todo> findByStatus(String status);
-    List<Todo> findByUser(User user);
+    List<Todo> findByCreatedBy(User user);
+    List<Todo> findByAssignedTo(User user);
     List<Todo> findByIdAndStatus(Long id, String status);
 }

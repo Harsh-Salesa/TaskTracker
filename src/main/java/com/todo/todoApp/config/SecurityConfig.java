@@ -37,9 +37,13 @@ public class SecurityConfig {
                         // ADMIN UI
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
+                        // MANAGER UI
+                        .requestMatchers("/manager/**")
+                        .hasAnyRole("MANAGER","ADMIN")
+
                         // USER UI
                         .requestMatchers("/tasks","/tasks/**")
-                        .hasAnyRole("USER","ADMIN")
+                        .hasAnyRole("USER","MANAGER","ADMIN")
 
                         .anyRequest().authenticated()
                 )
