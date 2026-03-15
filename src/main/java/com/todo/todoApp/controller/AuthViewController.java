@@ -46,6 +46,7 @@ public class AuthViewController {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setRole("USER");
+        user.setActive(true);
 
         userRepository.save(user);
 

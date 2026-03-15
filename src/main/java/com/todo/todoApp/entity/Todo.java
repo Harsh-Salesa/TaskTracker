@@ -110,4 +110,5 @@ public class Todo {
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
     }
-}
+
+    }
