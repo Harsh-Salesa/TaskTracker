@@ -8,7 +8,11 @@
 <body>
 
 <h2>Add Todo Task</h2>
-
+<div class="logout-link" style="float:right; margin-bottom:10px;">
+    <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to logout?')">
+        Logout
+    </a>
+</div>
 <form th:action="@{/tasks/save}" method="post" th:object="${todo}">
 
     Task Name:

@@ -8,6 +8,28 @@
 
 <body>
 
+<!-- fragments/header.html -->
+<div th:fragment="header">
+    <div class="header">
+        <!-- Project Name -->
+        <a th:href="@{/}" class="logo">TodoApp</a>
+
+        <!-- Navigation Links -->
+        <div class="nav-links">
+            <a th:href="@{/tasks}">Tasks</a>
+
+            <!-- Logout button for authenticated users -->
+            <span sec:authorize="isAuthenticated()">
+                <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to logout?')">Logout</a>
+            </span>
+
+            <!-- Login link for non-authenticated users -->
+            <span sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}">Login</a>
+            </span>
+        </div>
+    </div>
+</div>
 <div class="container">
     <a th:if="${session.userRole == 'MANAGER'}"
        th:href="@{/manager/tasks}">
