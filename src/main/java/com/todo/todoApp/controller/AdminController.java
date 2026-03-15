@@ -32,4 +32,11 @@ public class AdminController {
 
         return "admin-dashboard";
     }
+    @GetMapping("/users")
+    public String users(Model model){
+
+        model.addAttribute("users", userRepository.findAll());
+
+        return "admin-users.html";
+    }
 }

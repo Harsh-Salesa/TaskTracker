@@ -5,22 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dd605dc-3c13-4051-83ec-0a43fe008902" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AuthViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AuthViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/update-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/update-form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AuthViewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AuthViewController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/repository/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/service/AuthService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/update-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/update-form.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +36,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/arpit/Spring boot Application/TaskTracker"
   }
 }]]></component>
