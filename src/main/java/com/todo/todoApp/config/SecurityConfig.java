@@ -21,31 +21,25 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
 
-                // disable default spring login
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable())
-
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(
                                 "/login",
                                 "/register",
                                 "/login-form",
-                                "/auth/**",
                                 "/css/**",
-                                "/js/**",
-                                "/tasks/**",
-                                "/**"
+                                "/js/**"
                         ).permitAll()
 
-                        .requestMatchers(
-                                "/view",
-                                "/insert",
-                                "/update-form/**",
-                                "/delete/**",
-                                "/todos/**"
-                        ).authenticated()
+                        // API endpoints → JWT
+                        .requestMatchers("/auth/**","/tasks/api/**").permitAll()
 
+                        // ADMIN UI
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
+                        // USER UI
+                        .requestMatchers("/tasks","/tasks/**")
+                        .hasAnyRole("USER","ADMIN")
 
                         .anyRequest().authenticated()
                 )

@@ -2,11 +2,17 @@ package com.todo.todoApp.controller;
 
 import com.todo.todoApp.entity.User;
 import com.todo.todoApp.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class AuthViewController {
@@ -37,6 +43,7 @@ public class AuthViewController {
         User user = new User();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
+        user.setRole("USER");
 
         userRepository.save(user);
 
@@ -47,6 +54,7 @@ public class AuthViewController {
     public String login(@RequestParam String email,
                         @RequestParam String password,
                         HttpSession session,
+                        HttpServletRequest request,
                         Model model){
 
         User dbUser = userRepository
@@ -63,7 +71,26 @@ public class AuthViewController {
             return "login";
         }
 
-        session.setAttribute("userEmail", email);
+        session.setAttribute("userEmail", dbUser.getEmail());
+        session.setAttribute("userRole", dbUser.getRole());
+
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(
+                        dbUser.getEmail(),
+                        null,
+                        List.of(new SimpleGrantedAuthority("ROLE_" + dbUser.getRole()))
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        // 🔴 IMPORTANT
+        request.getSession()
+                .setAttribute("SPRING_SECURITY_CONTEXT",
+                        SecurityContextHolder.getContext());
+
+        if("ADMIN".equals(dbUser.getRole())){
+            return "redirect:/admin/dashboard";
+        }
 
         return "redirect:/tasks";
     }

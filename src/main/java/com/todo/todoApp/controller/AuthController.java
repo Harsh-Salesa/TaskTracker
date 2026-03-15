@@ -41,9 +41,7 @@ public class AuthController {
         Cookie cookie = new Cookie("jwt", token);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-
         response.addCookie(cookie);
-
         return "redirect:/tasks";
     }
 }
