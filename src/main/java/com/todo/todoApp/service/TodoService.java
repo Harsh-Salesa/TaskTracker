@@ -35,4 +35,5 @@ public interface TodoService {
     // manager features
 
     List<Todo> getTasksByManager(User manager);
+    
 }

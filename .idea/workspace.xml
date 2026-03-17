@@ -5,7 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7dd605dc-3c13-4051-83ec-0a43fe008902" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-edit-team.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/ManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/ManagerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/entity/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/entity/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/service/TodoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/todo/todoApp/service/TodoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin-create-user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-create-user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin-teams.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-teams.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin-users.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin-users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/manager-tasks.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/manager-tasks.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/ManagerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/controller/ManagerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/entity/Team.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/entity/Team.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/todo/todoApp/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/todo/todoApp/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/admin-create-user.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/admin-create-user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/admin-teams.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/admin-teams.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/admin-users.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/admin-users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/manager-tasks.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/manager-tasks.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +35,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -40,10 +60,12 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.TodoApplication.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/harsh/Downloads/Todo/target/classes/templates",
     "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
@@ -111,9 +133,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/todo/todoApp/TodoApplication.java</url>
-          <line>6</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/todo/todoApp/controller/ManagerController.java</url>
+          <line>70</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

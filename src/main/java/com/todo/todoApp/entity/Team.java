@@ -26,6 +26,9 @@ public class Team {
     public void setName(String name) {
         this.name = name;
     }
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
+    private User manager;
 
     public User getManager() {
         return manager;
@@ -35,8 +38,5 @@ public class Team {
         this.manager = manager;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private User manager;
 
 }

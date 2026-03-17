@@ -1,12 +1,17 @@
 package com.todo.todoApp.controller;
 
+import com.todo.todoApp.entity.Team;
+import com.todo.todoApp.entity.Todo;
 import com.todo.todoApp.entity.User;
 import com.todo.todoApp.repository.UserRepository;
 import com.todo.todoApp.service.TodoService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/manager")
@@ -23,17 +28,19 @@ public class ManagerController {
 
     // show manager team tasks
     @GetMapping("/tasks")
-    public String viewTeamTasks(Authentication auth, Model model){
+    public String managerTasks(Model model, HttpSession session){
 
-        User manager = userRepository
-                .findByEmail(auth.getName())
-                .orElseThrow();
+        String email = (String) session.getAttribute("userEmail");
 
-        model.addAttribute("todos",
-                todoService.getTasksByManager(manager));
+        User manager = userRepository.findByEmail(email).orElseThrow();
 
-        model.addAttribute("users",
-                userRepository.findByTeamManager(manager));
+        // manager ki team ke tasks
+        List<Todo> todos = todoService.getTasksByManager(manager);
+
+        List<User> teamMembers = userRepository.findByTeam(manager.getTeam());
+
+        model.addAttribute("todos", todos);
+        model.addAttribute("users", teamMembers);
 
         return "manager-tasks";
     }
@@ -46,5 +53,20 @@ public class ManagerController {
         todoService.assignTask(taskId, userId);
 
         return "redirect:/manager/tasks";
+    }
+    @GetMapping("/team")
+    public String viewTeam(Model model, HttpSession session){
+
+        String email = (String) session.getAttribute("userEmail");
+
+        User manager = userRepository.findByEmail(email).orElseThrow();
+
+        Team team = manager.getTeam();
+
+        List<User> members = userRepository.findByTeam(team);
+
+        model.addAttribute("members", members);
+
+        return "manager-team";
     }
 }

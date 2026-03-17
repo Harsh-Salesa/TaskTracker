@@ -8,6 +8,9 @@
 <th>Role</th>
  <th>Status</th>
 <th>Actions</th>
+    <th>Team</th>
+
+
 </tr>
 
     <tr th:each="user : ${users}">
@@ -39,7 +42,7 @@
                th:href="@{/admin/activate/{id}(id=${user.id})}">
                 Activate
             </a>
-
+        <td th:text="${user.team != null ? user.team.name : 'No Team'}"></td>
         </td>
 
     </tr>

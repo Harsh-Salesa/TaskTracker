@@ -1,16 +1,22 @@
-<h2>Create User</h2>
+<h2 xmlns:th="http://www.w3.org/1999/xhtml">Create User</h2>
 
-<form action="/admin/create-user" method="post">
+<form th:action="@{/admin/create-user}" method="post">
 
-    Username:
-    <input type="text" name="username" required>
+    <input type="text" name="username" placeholder="Username">
 
-    Email:
-    <input type="email" name="email" required>
+    <input type="email" name="email" placeholder="Email">
 
-    Password:
-    <input type="password" name="password" required>
+    <input type="password" name="password" placeholder="Password">
 
-    <button type="submit">Create User</button>
+
+    <select name="teamId">
+        <option th:each="team : ${teams}"
+                th:value="${team.id}"
+                th:text="${team.name}">
+        </option>
+
+    </select>
+
+    <button>Create User</button>
 
 </form>

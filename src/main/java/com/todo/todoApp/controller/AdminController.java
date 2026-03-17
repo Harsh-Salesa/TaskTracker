@@ -17,7 +17,6 @@ public class AdminController {
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
-
     public AdminController(UserRepository userRepository,
                            TeamRepository teamRepository,
                            PasswordEncoder passwordEncoder) {
@@ -128,14 +127,18 @@ public class AdminController {
         return "redirect:/admin/teams";
     }
     @GetMapping("/create-user")
-    public String createUserPage(){
+    public String createUserPage(Model model){
+
+        model.addAttribute("teams", teamRepository.findAll());
+
         return "admin-create-user";
     }
 
     @PostMapping("/create-user")
     public String createUser(@RequestParam String username,
                              @RequestParam String email,
-                             @RequestParam String password){
+                             @RequestParam String password,
+                             @RequestParam Long teamId){
 
         User user = new User();
 
@@ -145,7 +148,9 @@ public class AdminController {
 
         user.setRole("USER");
         user.setActive(true);
+        Team team = teamRepository.findById(teamId).orElseThrow();
 
+        user.setTeam(team);
         userRepository.save(user);
 
         return "redirect:/admin/users";
@@ -163,6 +168,45 @@ public class AdminController {
         userRepository.save(user);
 
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/teams/delete/{id}")
+    public String deleteTeam(@PathVariable Long id){
+
+        teamRepository.deleteById(id);
+
+        return "redirect:/admin/teams";
+    }
+    @PostMapping("/teams/update")
+    public String updateTeam(@RequestParam Long id,
+                             @RequestParam String name,
+                             @RequestParam(required = false) String managerId){
+
+        Team team = teamRepository.findById(id).orElseThrow();
+
+        team.setName(name);
+
+        if (managerId != null && !managerId.isEmpty()) {
+            Long mId = Long.parseLong(managerId);
+            User manager = userRepository.findById(mId).orElseThrow();
+            team.setManager(manager);
+        } else {
+            team.setManager(null);
+        }
+
+        teamRepository.save(team);
+
+        return "redirect:/admin/teams";
+    }
+    @GetMapping("/teams/edit/{id}")
+    public String editTeamPage(@PathVariable Long id, Model model){
+
+        Team team = teamRepository.findById(id).orElseThrow();
+
+        model.addAttribute("team", team);
+        model.addAttribute("managers", userRepository.findByRole("MANAGER"));
+
+        return "admin-edit-team";
     }
 
 }

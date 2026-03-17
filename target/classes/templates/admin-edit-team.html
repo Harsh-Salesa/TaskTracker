@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Team</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Logout -->
+    <div style="float:right; margin-bottom:10px;">
+        <a th:href="@{/logout}" onclick="return confirm('Are you sure you want to logout?')">
+            Logout
+        </a>
+    </div>
+
+    <div class="card">
+
+        <h1>Edit Team</h1>
+
+        <form th:action="@{/admin/teams/update}" method="post">
+
+            <!-- Hidden ID -->
+            <input type="hidden" name="id" th:value="${team.id}"/>
+
+            <!-- Team Name -->
+            <label>Team Name</label>
+            <input type="text" name="name" th:value="${team.name}" required>
+
+            <!-- Manager -->
+            <label>Manager</label>
+
+            <select name="managerId">
+
+                <option value="">No Manager</option>
+
+                <option th:each="m : ${managers}"
+                        th:value="${m.id}"
+                        th:text="${m.username}"
+                        th:selected="${team.manager != null and team.manager.id == m.id}">
+                </option>
+
+            </select>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-add">
+                Update Team
+            </button>
+
+        </form>
+
+        <br>
+
+        <!-- Back Button -->
+        <a th:href="@{/admin/teams}">
+            ⬅ Back to Teams
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

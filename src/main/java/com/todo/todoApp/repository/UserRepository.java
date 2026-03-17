@@ -1,5 +1,6 @@
 package com.todo.todoApp.repository;
 
+import com.todo.todoApp.entity.Team;
 import com.todo.todoApp.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByTeamManager(User manager);
 
     List<User> findByRole(String role);
-
+    List<User> findByTeam(Team team);
 }

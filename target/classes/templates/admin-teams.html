@@ -6,6 +6,12 @@
 
 <body>
 
+<div class="logout-link" style="float:right; margin-bottom:10px;">
+    <a th:href="@{/logout}" onclick="return confirm('Logout?')">
+        Logout
+    </a>
+</div>
+
 <h2>Create Team</h2>
 
 <form th:action="@{/admin/teams/create}" method="post">
@@ -16,6 +22,8 @@
     Manager:
 
     <select name="managerId">
+
+        <option value="">Select Manager</option>
 
         <option th:each="m : ${managers}"
                 th:value="${m.id}"
@@ -38,6 +46,7 @@
         <th>ID</th>
         <th>Team Name</th>
         <th>Manager</th>
+        <th>Actions</th>
     </tr>
 
     <tr th:each="team : ${teams}">
@@ -46,7 +55,21 @@
 
         <td th:text="${team.name}"></td>
 
-        <td th:text="${team.manager.username}"></td>
+        <td th:text="${team.manager != null ? team.manager.username : 'No Manager'}"></td>
+
+        <td>
+
+            <a th:href="@{/admin/teams/edit/{id}(id=${team.id})}">
+                Edit
+            </a>
+
+            <!-- DELETE -->
+            <a th:href="@{/admin/teams/delete/{id}(id=${team.id})}"
+               onclick="return confirm('Are you sure you want to delete team?')">
+                Delete
+            </a>
+
+        </td>
 
     </tr>
 
