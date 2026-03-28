@@ -1,11 +1,16 @@
 package com.todo.todoApp.controller;
 
+import com.todo.todoApp.DTO.TodoRequestDTO;
 import com.todo.todoApp.entity.Todo;
 import com.todo.todoApp.service.TodoService;
+
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -27,18 +32,26 @@ public class TodoController {
     @GetMapping("/api")
     @ResponseBody
     public List<Todo> getTasks(Authentication auth) {
-
         String email = auth.getName();
         return todoService.getTasksByUser(email);
     }
 
-    // ================= ADD TASK API =================
+    // ================= ADD TASK API (WITH VALIDATION) =================
     @PostMapping("/api")
     @ResponseBody
-    public Todo addTask(@RequestBody Todo todo, Authentication auth){
+    public Object addTask(@Valid @RequestBody TodoRequestDTO dto,
+                          BindingResult result,
+                          Authentication auth) {
+
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(e ->
+                    errors.put(e.getField(), e.getDefaultMessage()));
+            return errors;
+        }
 
         String email = auth.getName();
-        return todoService.saveTodo(todo,email);
+        return todoService.saveTodoFromDTO(dto, email);
     }
 
     // ================= HOME =================
@@ -47,16 +60,14 @@ public class TodoController {
 
         String email = (String) session.getAttribute("userEmail");
 
-        if(email == null){
+        if (email == null) {
             return "redirect:/login";
         }
 
         List<Todo> todos = todoService.getTasksByUser(email);
-
         todos = smartSort(todos);
 
         addDashboardStats(model, todos);
-
         model.addAttribute("todos", todos);
 
         return "home";
@@ -65,42 +76,64 @@ public class TodoController {
     // ================= INSERT =================
     @GetMapping("/insert")
     public String showInsertForm(Model model) {
-
-        model.addAttribute("todo", new Todo());
+        model.addAttribute("todo", new TodoRequestDTO());
         return "insert";
     }
 
+    // ================= SAVE (WITH VALIDATION) =================
     @PostMapping("/save")
-    public String saveTask(@ModelAttribute Todo todo,
-                           HttpSession session) {
+    public String saveTask(@Valid @ModelAttribute("todo") TodoRequestDTO dto,
+                           BindingResult result,
+                           HttpSession session,
+                           Model model) {
+
+        if (result.hasErrors()) {
+            return "insert";
+        }
 
         String email = (String) session.getAttribute("userEmail");
 
-        if(email == null){
+        if (email == null) {
             return "redirect:/login";
         }
 
-        todoService.saveTodo(todo,email);
+        todoService.saveTodoFromDTO(dto, email);
 
         return "redirect:/tasks";
     }
 
     // ================= UPDATE =================
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable Long id,
-                                 Model model) {
+    public String showUpdateForm(@PathVariable Long id, Model model) {
 
         Todo todo = todoService.getTaskById(id);
-        model.addAttribute("todo", todo);
+
+        TodoRequestDTO dto = new TodoRequestDTO();
+        dto.setTaskname(todo.getTaskname());
+        dto.setDescription(todo.getDescription());
+        dto.setStatus(todo.getStatus());
+        dto.setPriority(todo.getPriority());
+        dto.setDeadline(todo.getDeadline());
+
+        model.addAttribute("todo", dto);
+        model.addAttribute("id", id);
 
         return "update-form";
     }
 
+    // ================= UPDATE SAVE (WITH VALIDATION) =================
     @PostMapping("/update/{id}")
     public String updateTask(@PathVariable Long id,
-                             @ModelAttribute Todo todo) {
+                             @Valid @ModelAttribute("todo") TodoRequestDTO dto,
+                             BindingResult result,
+                             Model model) {
 
-        todoService.updateTask(id, todo);
+        if (result.hasErrors()) {
+            model.addAttribute("id", id);
+            return "update-form";
+        }
+
+        todoService.updateTaskFromDTO(id, dto);
 
         return "redirect:/tasks";
     }
@@ -108,7 +141,6 @@ public class TodoController {
     // ================= DELETE =================
     @GetMapping("/delete/{id}")
     public String deleteTask(@PathVariable Long id) {
-
         todoService.deleteTask(id);
         return "redirect:/tasks";
     }
@@ -132,7 +164,6 @@ public class TodoController {
         filtered = smartSort(filtered);
 
         model.addAttribute("todos", filtered);
-
         addDashboardStats(model, filtered);
 
         return "home";
@@ -140,8 +171,7 @@ public class TodoController {
 
     // ================= TODAY TASKS =================
     @GetMapping("/today")
-    public String todaysTasks(HttpSession session,
-                              Model model) {
+    public String todaysTasks(HttpSession session, Model model) {
 
         String email = (String) session.getAttribute("userEmail");
 
@@ -157,7 +187,6 @@ public class TodoController {
         todayTasks = smartSort(todayTasks);
 
         model.addAttribute("todos", todayTasks);
-
         addDashboardStats(model, todayTasks);
 
         return "home";
@@ -165,20 +194,18 @@ public class TodoController {
 
     // ================= CALENDAR =================
     @GetMapping("/calendar")
-    public String calendarView(HttpSession session,
-                               Model model) {
+    public String calendarView(HttpSession session, Model model) {
 
         String email = (String) session.getAttribute("userEmail");
 
         List<Todo> todos = todoService.getTasksByUser(email);
 
-        List<Map<String,String>> calendarTodos = todos.stream().map(t -> {
+        List<Map<String, String>> calendarTodos = todos.stream().map(t -> {
 
-            Map<String,String> map = new HashMap<>();
-
+            Map<String, String> map = new HashMap<>();
             map.put("title", t.getTaskname());
 
-            if(t.getDeadline()!=null){
+            if (t.getDeadline() != null) {
                 map.put("start", t.getDeadline().toString());
             }
 
@@ -192,8 +219,7 @@ public class TodoController {
     }
 
     // ================= DASHBOARD STATS =================
-    private void addDashboardStats(Model model,
-                                   List<Todo> todos) {
+    private void addDashboardStats(Model model, List<Todo> todos) {
 
         long total = todos.size();
 
@@ -206,7 +232,7 @@ public class TodoController {
                 .count();
 
         long overdue = todos.stream()
-                .filter(t -> t.getDeadline()!=null &&
+                .filter(t -> t.getDeadline() != null &&
                         t.getDeadline().isBefore(LocalDateTime.now()) &&
                         !"Completed".equalsIgnoreCase(t.getStatus()))
                 .count();
@@ -223,16 +249,16 @@ public class TodoController {
         LocalDateTime now = LocalDateTime.now();
 
         return todos.stream()
-                .sorted((a,b)->{
+                .sorted((a, b) -> {
 
-                    boolean aOverdue = a.getDeadline()!=null && a.getDeadline().isBefore(now);
-                    boolean bOverdue = b.getDeadline()!=null && b.getDeadline().isBefore(now);
+                    boolean aOverdue = a.getDeadline() != null && a.getDeadline().isBefore(now);
+                    boolean bOverdue = b.getDeadline() != null && b.getDeadline().isBefore(now);
 
-                    if(aOverdue && !bOverdue) return -1;
-                    if(!aOverdue && bOverdue) return 1;
+                    if (aOverdue && !bOverdue) return -1;
+                    if (!aOverdue && bOverdue) return 1;
 
-                    if(a.getDeadline()==null) return 1;
-                    if(b.getDeadline()==null) return -1;
+                    if (a.getDeadline() == null) return 1;
+                    if (b.getDeadline() == null) return -1;
 
                     return a.getDeadline().compareTo(b.getDeadline());
 
@@ -240,12 +266,13 @@ public class TodoController {
                 .collect(Collectors.toList());
     }
 
-    // ------------------ FILTER ------------------
+    // ================= FILTER =================
     @GetMapping("/filter")
     public String filterTasks(@RequestParam(required = false) Long id,
                               @RequestParam(required = false) String status,
                               HttpSession session,
                               Model model) {
+
         String email = (String) session.getAttribute("userEmail");
         List<Todo> todos = todoService.getTasksByUser(email);
 
@@ -268,5 +295,4 @@ public class TodoController {
 
         return "home";
     }
-
 }

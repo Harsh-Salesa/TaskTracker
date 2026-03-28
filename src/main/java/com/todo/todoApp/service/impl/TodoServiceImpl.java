@@ -1,5 +1,6 @@
 package com.todo.todoApp.service.impl;
 
+import com.todo.todoApp.DTO.TodoRequestDTO;
 import com.todo.todoApp.entity.Todo;
 import com.todo.todoApp.entity.User;
 import com.todo.todoApp.repository.TodoRepository;
@@ -122,5 +123,38 @@ public class TodoServiceImpl implements TodoService {
 
         return todoRepository.findByTeamManager(manager);
     }
+    @Override
+    public Todo saveTodoFromDTO(TodoRequestDTO dto, String email) {
 
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Todo todo = new Todo();
+
+        todo.setTaskname(dto.getTaskname());
+        todo.setDescription(dto.getDescription());
+        todo.setStatus(dto.getStatus());
+        todo.setPriority(dto.getPriority());
+        todo.setDeadline(dto.getDeadline());
+
+        todo.setCreatedBy(user);
+        todo.setTeam(user.getTeam());
+
+        return todoRepository.save(todo);
+    }
+
+    @Override
+    public void updateTaskFromDTO(Long id, TodoRequestDTO dto) {
+
+        Todo existing = todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        existing.setTaskname(dto.getTaskname());
+        existing.setDescription(dto.getDescription());
+        existing.setStatus(dto.getStatus());
+        existing.setPriority(dto.getPriority());
+        existing.setDeadline(dto.getDeadline());
+
+        todoRepository.save(existing);
+    }
 }

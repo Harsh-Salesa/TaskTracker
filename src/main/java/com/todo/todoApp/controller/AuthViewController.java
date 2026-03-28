@@ -1,15 +1,21 @@
 package com.todo.todoApp.controller;
 
+import com.todo.todoApp.DTO.LoginRequest;
+import com.todo.todoApp.DTO.RegisterRequest;
 import com.todo.todoApp.entity.User;
 import com.todo.todoApp.repository.UserRepository;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,25 +32,42 @@ public class AuthViewController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // ================= LOGIN PAGE =================
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage(Model model){
+        model.addAttribute("loginRequest", new LoginRequest());
         return "login";
     }
 
+    // ================= REGISTER PAGE =================
     @GetMapping("/register")
-    public String registerPage(){
+    public String registerPage(Model model){
+        model.addAttribute("user", new RegisterRequest());
         return "register";
     }
 
+    // ================= REGISTER =================
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username,
-                               @RequestParam String email,
-                               @RequestParam String password){
+    public String registerUser(@Valid @ModelAttribute("user") RegisterRequest request,
+                               BindingResult result,
+                               Model model){
 
+        // 🔴 Validation errors
+        if(result.hasErrors()){
+            return "register";
+        }
+
+        // 🔴 Duplicate email check
+        if(userRepository.findByEmail(request.getEmail()).isPresent()){
+            result.rejectValue("email", null, "Email already exists");
+            return "register";
+        }
+
+        // 🔴 Save user
         User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole("USER");
         user.setActive(true);
 
@@ -53,20 +76,29 @@ public class AuthViewController {
         return "redirect:/login";
     }
 
+    // ================= LOGIN =================
     @PostMapping("/login-form")
-    public String login(@RequestParam String logininput,
-                        @RequestParam String password,
+    public String login(@Valid @ModelAttribute("loginRequest") LoginRequest request,
+                        BindingResult result,
                         HttpSession session,
-                        HttpServletRequest request,
+                        HttpServletRequest httpRequest,
                         Model model){
-        User dbUser;
-        if(logininput.contains("@")){
-            dbUser = userRepository
-                    .findByEmail(logininput)
-                    .orElse(null);
+
+        // 🔴 Validation errors
+        if(result.hasErrors()){
+            return "login";
         }
-        else {
-            dbUser=userRepository.findByUsername(logininput)
+
+        User dbUser;
+
+        // Allow login via email OR username
+        if(request.getLoginInput().contains("@")){
+            dbUser = userRepository
+                    .findByEmail(request.getLoginInput())
+                    .orElse(null);
+        } else {
+            dbUser = userRepository
+                    .findByUsername(request.getLoginInput())
                     .orElse(null);
         }
 
@@ -75,14 +107,16 @@ public class AuthViewController {
             return "login";
         }
 
-        if(!passwordEncoder.matches(password, dbUser.getPassword())){
+        if(!passwordEncoder.matches(request.getPassword(), dbUser.getPassword())){
             model.addAttribute("error","Invalid password");
             return "login";
         }
 
+        // 🔴 Session setup
         session.setAttribute("userEmail", dbUser.getEmail());
         session.setAttribute("userRole", dbUser.getRole());
 
+        // 🔴 Spring Security context
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(
                         dbUser.getEmail(),
@@ -92,8 +126,7 @@ public class AuthViewController {
 
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        // 🔴 IMPORTANT
-        request.getSession()
+        httpRequest.getSession()
                 .setAttribute("SPRING_SECURITY_CONTEXT",
                         SecurityContextHolder.getContext());
 
@@ -104,18 +137,17 @@ public class AuthViewController {
         return "redirect:/tasks";
     }
 
+    // ================= LOGOUT =================
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
-        // Session ko invalidate kar do
+
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
 
-        // Spring Security context clear kar do
         SecurityContextHolder.clearContext();
 
-        // User ko login page par redirect
         return "redirect:/login";
     }
 }

@@ -1,5 +1,7 @@
 package com.todo.todoApp.controller;
-
+import jakarta.validation.Valid;
+import com.todo.todoApp.DTO.LoginRequest;
+import com.todo.todoApp.DTO.LoginRequest;
 import com.todo.todoApp.entity.User;
 import com.todo.todoApp.repository.UserRepository;
 import com.todo.todoApp.service.AuthService;
@@ -32,16 +34,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String email,
-                        @RequestParam String password,
+    public String login(@Valid @RequestBody LoginRequest request,
                         HttpServletResponse response) {
 
-        String token = authService.login(email, password);
+        String token = authService.login(request.getLoginInput(), request.getPassword());
 
         Cookie cookie = new Cookie("jwt", token);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
+
         return "redirect:/tasks";
     }
     @PostMapping("/logout")

@@ -1,13 +1,51 @@
-<h2>Register Page</h2>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
 
-<form method="post" action="/register" xmlns="http://www.w3.org/1999/html">
+    <!-- Link external CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 
-    <input type="text" name="username" placeholder="username" required></br></br>
 
-    <input type="email" name="email" placeholder="dem01234@gmail.com" required></br></br>
+<body class="auth-body">
 
-    <input type="password" name="password" placeholder="password" required></br></br>
+<div class="auth-container">
 
-    <button type="submit">Register</button>
+    <h2>Register</h2>
 
-</form>
+    <form th:action="@{/register}" th:object="${user}" method="post">
+
+        <!-- Username -->
+        <input type="text" th:field="*{username}" placeholder="Username"
+               th:classappend="${#fields.hasErrors('username')} ? 'error' : ''"/>
+        <p class="error-text"
+           th:if="${#fields.hasErrors('username')}"
+           th:errors="*{username}"></p>
+
+        <!-- Email -->
+        <input type="email" th:field="*{email}" placeholder="Email"
+               th:classappend="${#fields.hasErrors('email')} ? 'error' : ''"/>
+        <p class="error-text"
+           th:if="${#fields.hasErrors('email')}"
+           th:errors="*{email}"></p>
+
+        <!-- Password -->
+        <input type="password" th:field="*{password}" placeholder="Password"
+               th:classappend="${#fields.hasErrors('password')} ? 'error' : ''"/>
+        <p class="error-text"
+           th:if="${#fields.hasErrors('password')}"
+           th:errors="*{password}"></p>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <div class="link">
+        <a th:href="@{/login}">Already have an account? Login</a>
+    </div>
+
+</div>
+
+</body>
+</html>
